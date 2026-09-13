@@ -1,0 +1,6 @@
+{
+  "name": "OnlineTrimmer",
+  "description": "Free, browser-based media utilities to trim videos, cut audio, split PDFs, and sign documents 100% client-side with complete privacy.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

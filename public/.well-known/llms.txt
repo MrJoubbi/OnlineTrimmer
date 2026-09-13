@@ -1,0 +1,30 @@
+# OnlineTrimmer
+
+> OnlineTrimmer (https://onlinetrimmer.com) is a 100% client-side, browser-native media utility platform. It provides lossless video trimming, precision audio waveform cutting, and vector PDF page extraction and signing without uploading files to remote servers.
+
+## Core Capabilities & Architecture
+
+- **Zero-Upload Privacy Architecture**: All processing executes locally on the user's device using client-side WebAssembly, Web Audio API, and vector PDF engines (pdf-lib). No user files are sent to remote servers or cloud storage.
+- **Lossless Video Trimming**: Cuts video files (MP4, MOV, WebM, AVI, MKV) with millisecond scrubbing precision and keyframe preservation.
+- **Visual Audio Trimming**: Interactive waveform editor for MP3, WAV, and M4A with fade-in and fade-out volume curves.
+- **PDF Splitting & Page Extraction**: Interactive visual thumbnail grid to split PDF pages, extract page ranges, or remove confidential pages.
+- **PDF Digital Signing**: In-browser document signing allowing drawn signatures, typed signatures, or uploaded signature images placed accurately on any PDF page.
+
+## Key Tools & URLs
+
+- [Video Trimmer](https://onlinetrimmer.com/): Free client-side video cutter supporting MP4, MOV, WebM, AVI, and MKV.
+- [Audio Trimmer](https://onlinetrimmer.com/audio-trimmer): Visual waveform MP3, WAV, and M4A cutter with fade controls.
+- [Split PDF](https://onlinetrimmer.com/split-pdf): In-browser PDF page splitter and range extractor.
+- [Sign PDF](https://onlinetrimmer.com/sign-pdf): Private electronic PDF document signer.
+- [MP4 Trimmer](https://onlinetrimmer.com/mp4-trimmer): Dedicated MP4 container cutting without quality degradation.
+- [MOV Trimmer](https://onlinetrimmer.com/mov-trimmer): QuickTime MOV cutter preserving iPhone HDR and wide color gamut.
+- [WebM Trimmer](https://onlinetrimmer.com/webm-trimmer): VP8/VP9 web video trimmer for Discord, recordings, and web clips.
+- [AVI Trimmer](https://onlinetrimmer.com/avi-trimmer): Fast AVI video segment cutter.
+- [MKV Trimmer](https://onlinetrimmer.com/mkv-trimmer): Matroska HD video clip cutter.
+
+## Guides & Documentation
+
+- [How to Trim Video Without Losing Quality](https://onlinetrimmer.com/articles/how-to-trim-video-without-losing-quality): Deep dive into stream-copy vs re-encoding, keyframes (I-frames), and preserving original video resolution.
+- [How to Make iPhone & Android Ringtones](https://onlinetrimmer.com/articles/how-to-make-iphone-android-ringtone): Step-by-step guide to trimming MP3/WAV, setting fade curves, and converting to M4R or custom Android ringtones.
+- [Video Formats Compared (MP4 vs MOV vs WebM vs MKV vs AVI)](https://onlinetrimmer.com/articles/video-formats-compared-mp4-mov-webm): Technical comparison of codecs (H.264, H.265, VP9, AV1), containers, and platform compatibility.
+- [How to Split PDF Pages Privately](https://onlinetrimmer.com/articles/how-to-split-pdf-privately): Guide to extracting pages from confidential tax forms, medical records, and legal contracts without cloud server leaks.

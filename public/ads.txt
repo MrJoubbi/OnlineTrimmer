@@ -1,0 +1,11 @@
+# Google AdSense Authorized Digital Sellers (ads.txt) for OnlineTrimmer
+# Replace pub-XXXXXXXXXXXXXXXX with your actual Google AdSense Publisher ID
+# (e.g. pub-1234567890123456)
+#
+# Format: <Field #1>, <Field #2>, <Field #3>, <Field #4>
+# Field 1: Exchange / Ad network domain name
+# Field 2: Your publisher account ID
+# Field 3: Type of relationship (DIRECT or RESELLER)
+# Field 4: Certification authority ID (Google's is f08c47fec0942fa0)
+
+google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0

@@ -1,0 +1,27 @@
+{
+  "name": "OnlineTrimmer — Video, Audio & PDF Tools",
+  "short_name": "OnlineTrimmer",
+  "description": "Free, browser-based media utility suite. Trim videos, cut audio, split PDFs, and sign documents 100% client-side with complete privacy.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#059669",
+  "icons": [
+    {
+      "src": "/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ],
+  "categories": ["utilities", "productivity", "multimedia"]
+}

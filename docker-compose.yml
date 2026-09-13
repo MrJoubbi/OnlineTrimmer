@@ -1,0 +1,11 @@
+services:
+  onlinetrimmer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: onlinetrimmer-app
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    environment:
+      - NODE_ENV=production
