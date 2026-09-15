@@ -18,27 +18,43 @@ const STORAGE_KEY = 'onlinetrimmer_lang';
 function detectDefaultLanguage(): SupportedLanguage {
   if (typeof window === 'undefined') return 'en';
 
-  // 1. Check URL query params first (e.g. ?lang=ar or ?lang=fr)
+  const validCodes = new Set<string>(SUPPORTED_LANGUAGES.map((l) => l.code.toLowerCase()));
+
+  // 1. Check URL query params first (e.g. ?lang=hi or ?lang=es)
   const urlParams = new URLSearchParams(window.location.search);
   const langParam = urlParams.get('lang')?.toLowerCase();
-  if (langParam && ['en', 'fr', 'ar', 'ru'].includes(langParam)) {
-    return langParam as SupportedLanguage;
+  if (langParam) {
+    const match = SUPPORTED_LANGUAGES.find(
+      (l) => l.code.toLowerCase() === langParam
+    );
+    if (match) return match.code;
   }
 
   // 2. Check localStorage
-  const saved = localStorage.getItem(STORAGE_KEY) as SupportedLanguage | null;
-  if (saved && ['en', 'fr', 'ar', 'ru'].includes(saved)) {
-    return saved;
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY)?.toLowerCase();
+    if (saved) {
+      const match = SUPPORTED_LANGUAGES.find((l) => l.code.toLowerCase() === saved);
+      if (match) return match.code;
+    }
+  } catch {
+    // Ignore localStorage errors in sandboxed iframes
   }
 
   // 3. Detect from user's browser language list
   const browserLanguages = navigator.languages || [navigator.language || ''];
   for (const bl of browserLanguages) {
-    const code = bl.toLowerCase();
-    if (code.startsWith('ar')) return 'ar';
-    if (code.startsWith('fr')) return 'fr';
-    if (code.startsWith('ru')) return 'ru';
-    if (code.startsWith('en')) return 'en';
+    if (!bl) continue;
+    const lower = bl.toLowerCase();
+
+    // Exact match first (e.g. 'zh-tw')
+    const exactMatch = SUPPORTED_LANGUAGES.find((l) => l.code.toLowerCase() === lower);
+    if (exactMatch) return exactMatch.code;
+
+    // Base language match (e.g. 'es-419' -> 'es', 'pt-BR' -> 'pt', 'de-DE' -> 'de')
+    const baseCode = lower.split('-')[0];
+    const baseMatch = SUPPORTED_LANGUAGES.find((l) => l.code.toLowerCase() === baseCode);
+    if (baseMatch) return baseMatch.code;
   }
 
   return 'en';

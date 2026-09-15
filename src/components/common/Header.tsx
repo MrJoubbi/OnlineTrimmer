@@ -5,6 +5,7 @@ import { ToolId } from '../../types';
 import { useLanguage } from '../../i18n/LanguageContext';
 import { LanguageSelector } from './LanguageSelector';
 import { BrandLogo } from './BrandLogo';
+import { PWAInstallButton } from './PWAInstallButton';
 
 interface HeaderProps {
   currentPath: string;
@@ -112,7 +113,7 @@ export const Header: React.FC<HeaderProps> = ({ currentPath, onNavigate }) => {
               </button>
 
               {isFormatsOpen && (
-                <div className="absolute right-0 mt-1 w-52 bg-white rounded-xl shadow-lg border border-slate-150 py-1.5 z-50 animate-in fade-in zoom-in-95 duration-150">
+                <div className="absolute right-0 mt-1 w-56 max-h-88 overflow-y-auto bg-white rounded-xl shadow-xl border border-slate-200 py-1.5 z-50 animate-in fade-in zoom-in-95 duration-150">
                   <div className="px-3 py-1.5 text-[11px] font-semibold tracking-wider uppercase text-slate-400">
                     {t('formatSpecificTitle')}
                   </div>
@@ -143,8 +144,9 @@ export const Header: React.FC<HeaderProps> = ({ currentPath, onNavigate }) => {
             </div>
           </nav>
 
-          {/* Right Controls: Language Selector */}
-          <div className="flex items-center space-x-3">
+          {/* Right Controls: PWA Install & Language Selector */}
+          <div className="flex items-center space-x-2 sm:space-x-3">
+            <PWAInstallButton />
             <LanguageSelector variant="header" />
 
             {/* Mobile menu button */}

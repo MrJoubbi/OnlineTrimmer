@@ -472,6 +472,177 @@ export const TOOLS_CONFIG: Record<ToolId, ToolConfig> = {
         answer: 'Yes, select MP4 export in the output options for instantaneous compatibility.'
       }
     ]
+  },
+
+  'cut-wav-audio': {
+    id: 'cut-wav-audio',
+    path: '/cut-wav-audio',
+    name: 'WAV Audio Cutter',
+    shortName: 'WAV Cutter',
+    badge: 'Lossless',
+    title: 'WAV Cutter Online — Cut & Trim WAV Audio Losslessly',
+    metaDescription: 'Free online WAV audio cutter and trimmer. Cut uncompressed WAV sound files directly in your browser with interactive waveform view and zero quality loss.',
+    h1: 'Cut WAV Audio Online',
+    subheading: 'Trim uncompressed WAV files with millisecond accuracy and zero audio compression artifacts.',
+    primaryKeyword: 'cut wav audio online',
+    secondaryKeywords: ['wav cutter', 'trim wav file', 'cut wav online free', 'wav audio trimmer'],
+    acceptedMimeTypes: ['audio/wav', 'audio/x-wav', 'audio/wave', 'audio/*'],
+    acceptedExtensions: ['.wav'],
+    formatSpecific: {
+      formatName: 'WAV (Waveform Audio)',
+      description: 'Uncompressed pulse-code modulation (PCM) audio format prized for studio-grade clarity and mastering fidelity.',
+      advantages: [
+        'Pure uncompressed audio with zero loss in fidelity',
+        'Direct sample-accurate waveform precision',
+        'Industry standard for sound design, recording studios, and podcasts'
+      ],
+      typicalUses: ['Studio recordings', 'Podcast master audio', 'Sound effects', 'Music production stems']
+    },
+    howItWorks: [
+      { step: 1, title: 'Upload WAV File', description: 'Select or drop your .wav audio file. It loads directly into your device RAM.' },
+      { step: 2, title: 'Mark Cut In & Out', description: 'Scrub through the generated multi-channel waveform or use 1-click duration presets.' },
+      { step: 3, title: 'Export Lossless WAV', description: 'Listen to the trimmed segment in real time and download your crystal-clear audio snippet.' }
+    ],
+    faqs: [
+      { question: 'Is WAV audio re-encoded or compressed?', answer: 'No. OnlineTrimmer cuts your WAV file using client-side Web Audio buffers, keeping PCM samples intact.' },
+      { question: 'Can I use keyboard shortcuts to cut WAV?', answer: 'Yes! Press Space to toggle play, [ to set In point, ] to set Out point, and arrow keys to step frame-by-frame.' },
+      { question: 'Are large WAV files supported?', answer: 'Yes, files up to several hundred megabytes process locally in your browser memory without server upload delays.' }
+    ]
+  },
+
+  'cut-m4a': {
+    id: 'cut-m4a',
+    path: '/cut-m4a',
+    name: 'M4A Audio Trimmer',
+    shortName: 'M4A Cutter',
+    badge: 'Apple Audio',
+    title: 'Cut M4A Online — Free M4A Audio Cutter & Voice Memo Trimmer',
+    metaDescription: 'Trim and cut Apple M4A, AAC, and voice memo audio files online. Clean in-browser waveform editor with instant client-side playback and privacy.',
+    h1: 'Cut M4A Online',
+    subheading: 'Slice Apple voice memos and M4A audio tracks directly in your browser without file uploads.',
+    primaryKeyword: 'cut m4a online',
+    secondaryKeywords: ['m4a cutter', 'trim m4a audio', 'cut voice memo online', 'm4a trimmer free'],
+    acceptedMimeTypes: ['audio/x-m4a', 'audio/m4a', 'audio/mp4', 'audio/aac', 'audio/*'],
+    acceptedExtensions: ['.m4a', '.aac'],
+    formatSpecific: {
+      formatName: 'M4A (MPEG-4 Audio)',
+      description: 'Standard Apple audio format encoded with AAC or ALAC for high-efficiency mobile playback and voice recordings.',
+      advantages: [
+        'Native format for iPhone Voice Memos and Apple Music',
+        'Superior acoustic quality compared to MP3 at equivalent bitrates',
+        'Compact file sizes ideal for rapid sharing and playback'
+      ],
+      typicalUses: ['iPhone Voice Memos', 'Audiobook chapters', 'Podcast interview snippets', 'Music previews']
+    },
+    howItWorks: [
+      { step: 1, title: 'Drop M4A Audio', description: 'Choose your Apple Voice Memo or M4A music track.' },
+      { step: 2, title: 'Set Audio Boundaries', description: 'Isolate speech or music segments visually on the interactive audio canvas.' },
+      { step: 3, title: 'Download Trimmed Audio', description: 'Preview your clean cut and save instantly to your device.' }
+    ],
+    faqs: [
+      { question: 'Can I trim iPhone Voice Memos saved as M4A?', answer: 'Yes! AirDrop or transfer your .m4a voice memo to your computer or phone and trim it directly here.' },
+      { question: 'Does trimming M4A require uploading my confidential audio?', answer: 'No. The audio never leaves your device. All decoding and slicing happens 100% client-side.' }
+    ]
+  },
+
+  'make-iphone-ringtone': {
+    id: 'make-iphone-ringtone',
+    path: '/make-iphone-ringtone',
+    name: 'iPhone Ringtone Maker',
+    shortName: 'Ringtone Maker',
+    badge: 'Preset 29s',
+    title: 'Make iPhone Ringtone Online — Free M4R & MP3 Ringtone Cutter',
+    metaDescription: 'Create custom iPhone and Android ringtones online. Trim any song to 29 seconds with automatic fade in and fade out. 100% private in your browser.',
+    h1: 'Make iPhone Ringtone Online',
+    subheading: 'Turn your favorite songs and audio clips into custom iOS and Android ringtones with 1-click 29s trim and smooth fades.',
+    primaryKeyword: 'make iphone ringtone online',
+    secondaryKeywords: ['ringtone maker', 'create iphone ringtone', 'custom ringtone cutter', 'm4r ringtone trimmer'],
+    acceptedMimeTypes: ['audio/*', 'video/*'],
+    acceptedExtensions: ['.mp3', '.m4a', '.wav', '.aac', '.ogg'],
+    howItWorks: [
+      { step: 1, title: 'Select Song or Sound', description: 'Upload any MP3, M4A, or WAV track you wish to convert into a ringtone.' },
+      { step: 2, title: 'Click 29s Ringtone Preset', description: 'Click our dedicated "Ringtone (29s) + Fade" preset to automatically set the ideal iOS duration and smooth fade-in/fade-out.' },
+      { step: 3, title: 'Save & Set as Ringtone', description: 'Download your trimmed audio clip ready for iTunes / Finder / GarageBand syncing.' }
+    ],
+    faqs: [
+      { question: 'Why is the ringtone preset limited to 29 seconds?', answer: 'Apple iOS strictly enforces a 30-second maximum duration limit for custom ringtone audio files (.m4r). Keeping it at 29s guarantees seamless looping.' },
+      { question: 'Does it apply fade-in and fade-out?', answer: 'Yes, our 1-click ringtone preset automatically applies smooth fades so your phone rings naturally without jarring audio clicks.' }
+    ]
+  },
+
+  'tiktok-video-cutter': {
+    id: 'tiktok-video-cutter',
+    path: '/tiktok-video-cutter',
+    name: 'TikTok Video Cutter',
+    shortName: 'TikTok Cutter',
+    badge: 'Social 9:16',
+    title: 'TikTok Video Cutter — Trim & Cut Videos for TikTok Online',
+    metaDescription: 'Cut and trim videos for TikTok online. Fast 15s and 60s presets, client-side lossless clipping, and zero watermarks. Ready for TikTok uploads.',
+    h1: 'TikTok Video Cutter',
+    subheading: 'Trim punchy highlights for TikTok feeds and Stories with 1-click duration presets and no watermarks.',
+    primaryKeyword: 'tiktok video cutter',
+    secondaryKeywords: ['cut video for tiktok', 'trim tiktok video', 'tiktok video trimmer online', 'crop video tiktok free'],
+    acceptedMimeTypes: ['video/mp4', 'video/quicktime', 'video/webm', 'video/*'],
+    acceptedExtensions: ['.mp4', '.mov', '.webm'],
+    howItWorks: [
+      { step: 1, title: 'Add TikTok Footage', description: 'Drop your vertical (9:16) or horizontal video file.' },
+      { step: 2, title: 'Apply 15s or 60s Preset', description: 'Click the TikTok preset button or scrub to your favorite punchline or hook.' },
+      { step: 3, title: 'Export Without Watermark', description: 'Download clean, unwatermarked video instantly ready for posting on TikTok.' }
+    ],
+    faqs: [
+      { question: 'Will this add any watermark to my TikTok videos?', answer: 'Never. OnlineTrimmer is 100% watermark-free, preserving your original production branding.' },
+      { question: 'What is the best clip length for TikTok algorithm retention?', answer: 'Clips between 12 to 25 seconds consistently achieve the highest complete-watch ratios on TikTok.' }
+    ]
+  },
+
+  'youtube-shorts-cutter': {
+    id: 'youtube-shorts-cutter',
+    path: '/youtube-shorts-cutter',
+    name: 'YouTube Shorts Cutter',
+    shortName: 'Shorts Cutter',
+    badge: 'Under 60s',
+    title: 'YouTube Shorts Cutter — Trim Videos Under 60 Seconds Online',
+    metaDescription: 'Trim and edit videos for YouTube Shorts. Guarantee your clips remain strictly under the 60-second YouTube Shorts threshold with millisecond precision.',
+    h1: 'YouTube Shorts Cutter',
+    subheading: 'Snip vertical video clips under 60 seconds with frame accuracy so YouTube automatically categorizes them as Shorts.',
+    primaryKeyword: 'youtube shorts cutter',
+    secondaryKeywords: ['trim video for youtube shorts', 'cut youtube shorts online', '60 second video cutter', 'youtube shorts trimmer'],
+    acceptedMimeTypes: ['video/mp4', 'video/quicktime', 'video/webm', 'video/*'],
+    acceptedExtensions: ['.mp4', '.mov', '.webm'],
+    howItWorks: [
+      { step: 1, title: 'Upload Your Video', description: 'Select any MP4, MOV, or WEBM video recording.' },
+      { step: 2, title: 'Enforce Under-60s Boundary', description: 'Use the 1-click "Shorts (60s)" preset to guarantee your clip stays under 59.9 seconds.' },
+      { step: 3, title: 'Export & Upload to YouTube', description: 'Download your trimmed video and upload directly to YouTube Shorts with #shorts.' }
+    ],
+    faqs: [
+      { question: 'Why is it important that Shorts are under 60 seconds?', answer: 'YouTube automatically classifies vertical videos as regular videos if they exceed 60.0 seconds by even a fraction of a frame.' },
+      { question: 'Can I trim gaming and podcast clips for YouTube Shorts?', answer: 'Yes! Simply scrub to your highlight moment and export in seconds.' }
+    ]
+  },
+
+  'instagram-reels-cutter': {
+    id: 'instagram-reels-cutter',
+    path: '/instagram-reels-cutter',
+    name: 'Instagram Reels Cutter',
+    shortName: 'Reels Cutter',
+    badge: '30s / 90s',
+    title: 'Instagram Reels Cutter — Cut & Trim Video for Instagram Online',
+    metaDescription: 'Trim video clips for Instagram Reels and Stories online. Fast presets for 15s, 30s, and 90s reels with private in-browser rendering and zero watermarks.',
+    h1: 'Instagram Reels Cutter',
+    subheading: 'Cut smooth clips for Instagram Reels and Stories with 1-click presets and crystal clear lossless quality.',
+    primaryKeyword: 'instagram reels cutter',
+    secondaryKeywords: ['cut video for instagram reels', 'trim reels video', 'instagram video cutter online', 'reels video trimmer'],
+    acceptedMimeTypes: ['video/mp4', 'video/quicktime', 'video/webm', 'video/*'],
+    acceptedExtensions: ['.mp4', '.mov', '.webm'],
+    howItWorks: [
+      { step: 1, title: 'Choose Reel Footage', description: 'Drop your high-resolution video clip into the trimmer.' },
+      { step: 2, title: 'Select Reels 30s Preset', description: 'Choose between 15s Story, 30s Reel, or custom timestamps with precision playhead scrubbing.' },
+      { step: 3, title: 'Download Clean MP4', description: 'Export instantly without cloud waiting queues or compression degradation.' }
+    ],
+    faqs: [
+      { question: 'What video format does Instagram Reels prefer?', answer: 'Instagram prefers H.264 MP4 with AAC audio at 1080x1920 (9:16 vertical).' },
+      { question: 'Can I trim videos on my mobile phone browser?', answer: 'Yes! OnlineTrimmer runs natively on Safari, Chrome, and Firefox on both iOS and Android.' }
+    ]
   }
 };
 
@@ -485,6 +656,12 @@ export const ALL_TOOLS_LIST = [
   TOOLS_CONFIG['webm-trimmer'],
   TOOLS_CONFIG['avi-trimmer'],
   TOOLS_CONFIG['mkv-trimmer'],
+  TOOLS_CONFIG['cut-wav-audio'],
+  TOOLS_CONFIG['cut-m4a'],
+  TOOLS_CONFIG['make-iphone-ringtone'],
+  TOOLS_CONFIG['tiktok-video-cutter'],
+  TOOLS_CONFIG['youtube-shorts-cutter'],
+  TOOLS_CONFIG['instagram-reels-cutter'],
 ];
 
 export const CORE_NAV_TOOLS = [
@@ -501,4 +678,10 @@ export const FORMAT_TRIMMER_KEYS: ToolId[] = [
   'webm-trimmer',
   'avi-trimmer',
   'mkv-trimmer',
+  'cut-wav-audio',
+  'cut-m4a',
+  'make-iphone-ringtone',
+  'tiktok-video-cutter',
+  'youtube-shorts-cutter',
+  'instagram-reels-cutter',
 ];

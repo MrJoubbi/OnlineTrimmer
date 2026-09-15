@@ -7,7 +7,13 @@ export type ToolId =
   | 'mov-trimmer'
   | 'webm-trimmer'
   | 'avi-trimmer'
-  | 'mkv-trimmer';
+  | 'mkv-trimmer'
+  | 'cut-wav-audio'
+  | 'cut-m4a'
+  | 'make-iphone-ringtone'
+  | 'tiktok-video-cutter'
+  | 'youtube-shorts-cutter'
+  | 'instagram-reels-cutter';
 
 export interface HowItWorksStep {
   step: number;

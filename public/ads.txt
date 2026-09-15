@@ -8,4 +8,4 @@
 # Field 3: Type of relationship (DIRECT or RESELLER)
 # Field 4: Certification authority ID (Google's is f08c47fec0942fa0)
 
-google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0
+google.com, pub-3381513533522940, DIRECT, f08c47fec0942fa0

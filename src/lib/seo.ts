@@ -1,17 +1,24 @@
 import { ToolConfig } from '../types';
 import { SeoArticle } from '../config/articles';
+import { SUPPORTED_LANGUAGES, SupportedLanguage } from '../i18n/types';
+import { LOCALIZED_TOOL_CONTENT } from '../i18n/toolContent';
 
 function updateHreflangTags(pathname: string) {
   if (typeof document === 'undefined') return;
   const baseUrl = `https://onlinetrimmer.com${pathname === '/' ? '' : pathname}`;
 
+  // Base fallback x-default
   const hreflangMap: Record<string, string> = {
     'x-default': baseUrl,
     en: baseUrl,
-    fr: `${baseUrl}?lang=fr`,
-    ar: `${baseUrl}?lang=ar`,
-    ru: `${baseUrl}?lang=ru`,
   };
+
+  // Add all other 49 languages
+  for (const lang of SUPPORTED_LANGUAGES) {
+    if (lang.code !== 'en') {
+      hreflangMap[lang.code] = `${baseUrl}?lang=${lang.code}`;
+    }
+  }
 
   Object.entries(hreflangMap).forEach(([lang, url]) => {
     let link = document.querySelector(`link[rel="alternate"][hreflang="${lang}"]`);
@@ -28,8 +35,25 @@ function updateHreflangTags(pathname: string) {
 export function updatePageSEO(config: ToolConfig, language?: string) {
   if (typeof document === 'undefined') return;
 
+  const currentLang = (language || 'en') as SupportedLanguage;
+
+  // Set document language and text direction for international SEO and accessibility
+  document.documentElement.lang = currentLang;
+  if (['ar', 'fa', 'ur', 'he'].includes(currentLang)) {
+    document.documentElement.dir = 'rtl';
+  } else {
+    document.documentElement.dir = 'ltr';
+  }
+
+  // Retrieve localized content bundle if available
+  const localized = LOCALIZED_TOOL_CONTENT[currentLang]?.[config.id];
+  const activeTitle = localized?.h1 ? `${localized.h1} | OnlineTrimmer` : config.title;
+  const activeDesc = localized?.subheading || config.metaDescription;
+  const activeFaqs = localized?.faqs || config.faqs;
+  const activeHowItWorks = localized?.howItWorks || config.howItWorks;
+
   // Title
-  document.title = config.title;
+  document.title = activeTitle;
 
   // Meta Description
   let metaDesc = document.querySelector('meta[name="description"]');
@@ -38,10 +62,10 @@ export function updatePageSEO(config: ToolConfig, language?: string) {
     metaDesc.setAttribute('name', 'description');
     document.head.appendChild(metaDesc);
   }
-  metaDesc.setAttribute('content', config.metaDescription);
+  metaDesc.setAttribute('content', activeDesc);
 
   // Canonical Tag
-  const fullUrl = `https://onlinetrimmer.com${config.path === '/' ? '' : config.path}`;
+  const fullUrl = `https://onlinetrimmer.com${config.path === '/' ? '' : config.path}${currentLang !== 'en' ? `?lang=${currentLang}` : ''}`;
   let canonical = document.querySelector('link[rel="canonical"]');
   if (!canonical) {
     canonical = document.createElement('link');
@@ -50,7 +74,7 @@ export function updatePageSEO(config: ToolConfig, language?: string) {
   }
   canonical.setAttribute('href', fullUrl);
 
-  // Dynamic Hreflang Tags for SEO
+  // Dynamic Hreflang Tags for SEO across all 50 locales
   updateHreflangTags(config.path);
 
   // Open Graph & Twitter Tags
@@ -64,18 +88,19 @@ export function updatePageSEO(config: ToolConfig, language?: string) {
     el.setAttribute('content', content);
   };
 
-  setMeta('property', 'og:title', config.title);
-  setMeta('property', 'og:description', config.metaDescription);
+  setMeta('property', 'og:title', activeTitle);
+  setMeta('property', 'og:description', activeDesc);
   setMeta('property', 'og:url', fullUrl);
   setMeta('property', 'og:type', 'website');
   setMeta('property', 'og:site_name', 'OnlineTrimmer');
+  setMeta('property', 'og:locale', currentLang);
   setMeta('property', 'og:image', 'https://onlinetrimmer.com/logo.png');
   setMeta('property', 'og:image:width', '1200');
   setMeta('property', 'og:image:height', '630');
   setMeta('property', 'og:image:alt', `${config.name} — OnlineTrimmer`);
   setMeta('name', 'twitter:card', 'summary_large_image');
-  setMeta('name', 'twitter:title', config.title);
-  setMeta('name', 'twitter:description', config.metaDescription);
+  setMeta('name', 'twitter:title', activeTitle);
+  setMeta('name', 'twitter:description', activeDesc);
   setMeta('name', 'twitter:image', 'https://onlinetrimmer.com/logo.png');
 
   // Keywords Meta Tag
@@ -86,12 +111,13 @@ export function updatePageSEO(config: ToolConfig, language?: string) {
   const oldSchemas = document.querySelectorAll('script[data-schema="onlinetrimmer"]');
   oldSchemas.forEach((s) => s.remove());
 
-  // 1. FAQPage Schema (Rich snippet & GEO Answer Engine grounding)
-  if (config.faqs && config.faqs.length > 0) {
+  // 1. FAQPage Schema (Rich snippet & GEO Answer Engine grounding in active language)
+  if (activeFaqs && activeFaqs.length > 0) {
     const faqSchema = {
       '@context': 'https://schema.org',
       '@type': 'FAQPage',
-      mainEntity: config.faqs.map((faq) => ({
+      inLanguage: currentLang,
+      mainEntity: activeFaqs.map((faq) => ({
         '@type': 'Question',
         name: faq.question,
         acceptedAnswer: {
@@ -107,7 +133,8 @@ export function updatePageSEO(config: ToolConfig, language?: string) {
   const appSchema = {
     '@context': 'https://schema.org',
     '@type': 'WebApplication',
-    name: config.name,
+    name: localized?.h1 || config.name,
+    inLanguage: currentLang,
     url: fullUrl,
     applicationCategory: 'MultimediaApplication',
     operatingSystem: 'All (Windows, macOS, Linux, iOS, Android)',
@@ -125,7 +152,7 @@ export function updatePageSEO(config: ToolConfig, language?: string) {
       bestRating: '5',
       worstRating: '1',
     },
-    description: config.metaDescription,
+    description: activeDesc,
     featureList: [
       '100% Client-Side In-Browser Media Processing',
       'Lossless Video Stream Trimming (Zero Re-encoding)',
@@ -140,15 +167,16 @@ export function updatePageSEO(config: ToolConfig, language?: string) {
   };
   injectSchema(appSchema);
 
-  // 3. HowTo Schema (for Google's rich How-To carousel & AI Step extraction)
-  if (config.howItWorks && config.howItWorks.length > 0) {
+  // 3. HowTo Schema (for Google rich How-To carousel in active language)
+  if (activeHowItWorks && activeHowItWorks.length > 0) {
     const howToSchema = {
       '@context': 'https://schema.org',
       '@type': 'HowTo',
-      name: `How to Use ${config.name}`,
-      description: config.metaDescription,
+      name: localized?.h1 ? `How to Use: ${localized.h1}` : `How to Use ${config.name}`,
+      description: activeDesc,
+      inLanguage: currentLang,
       totalTime: 'PT1M',
-      step: config.howItWorks.map((step) => ({
+      step: activeHowItWorks.map((step) => ({
         '@type': 'HowToStep',
         position: step.step,
         name: step.title,
@@ -173,7 +201,7 @@ export function updatePageSEO(config: ToolConfig, language?: string) {
       {
         '@type': 'ListItem',
         position: 2,
-        name: config.name,
+        name: localized?.h1 || config.name,
         item: fullUrl,
       },
     ],

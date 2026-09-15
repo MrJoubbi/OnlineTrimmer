@@ -2,6 +2,41 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <script>
+      // Safeguard against third-party scripts (AdSense, GTM, polyfills) attempting to set window.fetch
+      // in sandboxed iframe environments where fetch has only a getter by default.
+      (function() {
+        try {
+          var originalFetch = window.fetch;
+          var currentFetch = originalFetch;
+          var desc = Object.getOwnPropertyDescriptor(window, 'fetch');
+          if (!desc || desc.configurable) {
+            Object.defineProperty(window, 'fetch', {
+              get: function() {
+                return currentFetch || originalFetch;
+              },
+              set: function(val) {
+                currentFetch = val;
+              },
+              configurable: true,
+              enumerable: true
+            });
+          }
+        } catch (e) {
+          // Property may be non-configurable in some sandbox environments
+        }
+
+        // Catch and prevent unhandled getter errors from crashing page execution
+        window.addEventListener('error', function(event) {
+          if (event && event.message && event.message.indexOf('Cannot set property fetch') !== -1) {
+            if (typeof event.preventDefault === 'function') {
+              event.preventDefault();
+            }
+            return true;
+          }
+        });
+      })();
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>OnlineTrimmer — Free Browser-Based Video, Audio & PDF Tools</title>
     <meta name="description" content="Free, browser-based media utility suite. Trim videos, cut audio, split PDFs, and sign documents 100% client-side with complete privacy and no server uploads." />
@@ -60,9 +95,34 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
-    <!-- Google AdSense Verification & Publisher Tag (Replace with your pub-ID) -->
-    <meta name="google-adsense-account" content="ca-pub-XXXXXXXXXXXXXXXX" />
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+    <!-- Google Analytics 4 (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-68DTQNYRQL"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-68DTQNYRQL');
+    </script>
+
+    <!-- Google AdSense Verification & Publisher Tag -->
+    <meta name="google-adsense-account" content="ca-pub-3381513533522940" />
+    <script>
+      (function() {
+        try {
+          var host = window.location.hostname;
+          var isLocalOrPreview = host === 'localhost' || host === '127.0.0.1' || host.indexOf('run.app') !== -1;
+          // In local development or AI Studio preview container, prevent ad network scripts from executing in sandbox
+          if (!isLocalOrPreview) {
+            var adScript = document.createElement('script');
+            adScript.async = true;
+            adScript.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3381513533522940';
+            adScript.crossOrigin = 'anonymous';
+            document.head.appendChild(adScript);
+          }
+        } catch (e) {}
+      })();
+    </script>
 
     <!-- Global Organization & WebSite JSON-LD Schema (GEO & Google Search Integration) -->
     <script type="application/ld+json">

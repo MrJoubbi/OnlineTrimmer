@@ -10,7 +10,7 @@ interface FooterProps {
 }
 
 export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
-  const { t } = useLanguage();
+  const { t, language, setLanguage, availableLanguages } = useLanguage();
 
   return (
     <footer className="bg-slate-900 text-slate-300 border-t border-slate-800 pt-14 pb-12 mt-20">
@@ -162,10 +162,48 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
           </div>
         </div>
 
-        {/* Bottom bar with AdSense Mandatory Legal & Company Links */}
-        <div className="pt-8 border-t border-slate-800/80 flex flex-col md:flex-row items-center justify-between text-xs text-slate-400 gap-4">
+        {/* 50 Global Languages Quick Access Strip */}
+        <div className="pt-8 pb-6 border-t border-slate-800/80 mb-6">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mb-3">
+            <div className="flex items-center space-x-2 text-xs font-semibold text-slate-200">
+              <Globe className="w-3.5 h-3.5 text-emerald-400" />
+              <span>Available in 50 Global Languages</span>
+              <span className="bg-emerald-950 text-emerald-400 border border-emerald-800 text-[10px] px-1.5 py-0.5 rounded-full font-normal">
+                50 / 50 Supported
+              </span>
+            </div>
+            <span className="text-[11px] text-slate-400">
+              Instant in-browser translation • No reload needed
+            </span>
+          </div>
+          <div className="flex flex-wrap gap-1.5 max-h-36 overflow-y-auto pr-1">
+            {availableLanguages.map((lang) => {
+              const isSelected = lang.code === language;
+              return (
+                <button
+                  key={lang.code}
+                  id={`footer-lang-${lang.code}`}
+                  onClick={() => setLanguage(lang.code)}
+                  className={`inline-flex items-center space-x-1 px-2 py-1 rounded-md text-[11px] transition-colors cursor-pointer ${
+                    isSelected
+                      ? 'bg-emerald-500 text-slate-950 font-bold shadow-xs'
+                      : 'bg-slate-800/80 text-slate-300 hover:bg-slate-750 hover:text-white border border-slate-700/60'
+                  }`}
+                  title={`${lang.name} (${lang.nativeName})`}
+                >
+                  <span className="text-xs">{lang.flag}</span>
+                  <span>{lang.nativeName}</span>
+                  {lang.rank && <span className="text-[9px] opacity-60">#{lang.rank}</span>}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Bottom bar with Company & Legal Links */}
+        <div className="pt-6 border-t border-slate-800/80 flex flex-col md:flex-row items-center justify-between text-xs text-slate-400 gap-4">
           <p>© {new Date().getFullYear()} OnlineTrimmer (onlinetrimmer.com). All rights reserved.</p>
-          <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs">
+          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs">
             <button
               id="footer-about-link"
               onClick={() => onNavigate('/about')}
@@ -194,28 +232,6 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             >
               Terms of Service
             </button>
-            <button
-              id="footer-cookie-policy-link"
-              onClick={() => onNavigate('/cookie-policy')}
-              className="hover:text-emerald-400 transition-colors cursor-pointer"
-            >
-              Cookie Policy
-            </button>
-            <button
-              id="footer-cookie-settings-link"
-              onClick={() => window.dispatchEvent(new CustomEvent('openCookieSettings'))}
-              className="hover:text-emerald-400 transition-colors cursor-pointer text-slate-400"
-            >
-              Cookie Settings
-            </button>
-            <a
-              href="/ads.txt"
-              target="_blank"
-              rel="noreferrer"
-              className="hover:text-emerald-400 transition-colors"
-            >
-              ads.txt
-            </a>
           </div>
         </div>
       </div>

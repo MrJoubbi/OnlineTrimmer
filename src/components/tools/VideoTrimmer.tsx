@@ -122,6 +122,56 @@ export const VideoTrimmer: React.FC<VideoTrimmerProps> = ({ toolConfig }) => {
     setEndTime(newEnd);
   };
 
+  const applyPreset = (presetDuration: number) => {
+    if (presetDuration === 0) {
+      setStartTime(0);
+      setEndTime(duration);
+      seekTo(0);
+      return;
+    }
+    const safeStart = Math.min(currentTime, Math.max(0, duration - presetDuration));
+    const safeEnd = Math.min(duration, safeStart + presetDuration);
+    setStartTime(safeStart);
+    setEndTime(safeEnd);
+    seekTo(safeStart);
+  };
+
+  // Keyboard navigation shortcuts: Space (Play/Pause), [ or I (Set Start), ] or O (Set End), Left/Right (Step)
+  useEffect(() => {
+    if (!file) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const activeTag = (e.target as HTMLElement)?.tagName;
+      if (['INPUT', 'TEXTAREA', 'SELECT'].includes(activeTag)) return;
+
+      if (e.code === 'Space') {
+        e.preventDefault();
+        togglePlay();
+      } else if (e.key === '[' || e.key.toLowerCase() === 'i') {
+        e.preventDefault();
+        handleSetStartAtPlayhead();
+      } else if (e.key === ']' || e.key.toLowerCase() === 'o') {
+        e.preventDefault();
+        handleSetEndAtPlayhead();
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        seekTo(Math.max(0, currentTime - 0.5));
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        seekTo(Math.min(duration, currentTime + 0.5));
+      } else if (e.key.toLowerCase() === 'j') {
+        e.preventDefault();
+        seekTo(Math.max(0, currentTime - 1.0));
+      } else if (e.key.toLowerCase() === 'l') {
+        e.preventDefault();
+        seekTo(Math.min(duration, currentTime + 1.0));
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [file, currentTime, duration, isPlaying, startTime, endTime]);
+
   const handleTrim = async () => {
     if (!file) return;
     if (isPlaying && videoRef.current) {
@@ -348,6 +398,68 @@ export const VideoTrimmer: React.FC<VideoTrimmerProps> = ({ toolConfig }) => {
                 <span>00:00</span>
                 <span>{formatTime(duration / 2, false)}</span>
                 <span>{formatTime(duration, false)}</span>
+              </div>
+            </div>
+
+            {/* Smart Presets & Quick Duration Pills */}
+            <div className="flex flex-wrap items-center justify-between gap-2 pt-1">
+              <div className="flex flex-wrap items-center gap-1.5 text-xs">
+                <span className="text-slate-400 text-[11px] font-semibold uppercase tracking-wider mr-1">
+                  Presets:
+                </span>
+                <button
+                  type="button"
+                  id="preset-full-video"
+                  onClick={() => applyPreset(0)}
+                  className="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium text-xs transition-colors cursor-pointer"
+                >
+                  Full Video
+                </button>
+                <button
+                  type="button"
+                  id="preset-tiktok-15s"
+                  onClick={() => applyPreset(15)}
+                  className="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-emerald-100 hover:text-emerald-800 text-slate-700 font-medium text-xs transition-colors cursor-pointer"
+                  title="Trim 15-second highlight for TikTok & Stories"
+                >
+                  TikTok (15s)
+                </button>
+                <button
+                  type="button"
+                  id="preset-reels-30s"
+                  onClick={() => applyPreset(30)}
+                  className="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-emerald-100 hover:text-emerald-800 text-slate-700 font-medium text-xs transition-colors cursor-pointer"
+                  title="Trim 30-second clip for Instagram Reels"
+                >
+                  Reels (30s)
+                </button>
+                <button
+                  type="button"
+                  id="preset-shorts-60s"
+                  onClick={() => applyPreset(59.9)}
+                  className="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-emerald-100 hover:text-emerald-800 text-slate-700 font-medium text-xs transition-colors cursor-pointer"
+                  title="Trim under 60-second video for YouTube Shorts"
+                >
+                  Shorts (60s)
+                </button>
+                <button
+                  type="button"
+                  id="preset-discord-10s"
+                  onClick={() => applyPreset(10)}
+                  className="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-emerald-100 hover:text-emerald-800 text-slate-700 font-medium text-xs transition-colors cursor-pointer"
+                  title="Trim quick 10s clip for Discord or WhatsApp"
+                >
+                  Discord (10s)
+                </button>
+              </div>
+
+              {/* Keyboard Shortcuts HUD */}
+              <div className="hidden lg:flex items-center space-x-2 text-[11px] text-slate-400 bg-slate-50 px-2.5 py-1 rounded-lg border border-slate-200">
+                <span className="font-semibold text-slate-500">Shortcuts:</span>
+                <span><kbd className="font-mono bg-white px-1 py-0.5 rounded border border-slate-200 text-[10px] text-slate-600">Space</kbd> Play</span>
+                <span><kbd className="font-mono bg-white px-1 py-0.5 rounded border border-slate-200 text-[10px] text-slate-600">[</kbd> In</span>
+                <span><kbd className="font-mono bg-white px-1 py-0.5 rounded border border-slate-200 text-[10px] text-slate-600">]</kbd> Out</span>
+                <span><kbd className="font-mono bg-white px-1 py-0.5 rounded border border-slate-200 text-[10px] text-slate-600">←/→</kbd> Step</span>
               </div>
             </div>
 

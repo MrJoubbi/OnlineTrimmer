@@ -14,6 +14,7 @@ import { AboutUs } from './components/legal/AboutUs';
 import { ContactUs } from './components/legal/ContactUs';
 import { CookiePolicy } from './components/legal/CookiePolicy';
 import { CookieConsent } from './components/common/CookieConsent';
+import { OfflineIndicator } from './components/common/OfflineIndicator';
 import { updateHubSEO, updateLegalPageSEO } from './lib/seo';
 
 function resolvePathToTool(pathname: string): ToolConfig {
@@ -157,6 +158,9 @@ export default function App() {
   const renderTool = () => {
     switch (activeTool.id) {
       case 'audio-trimmer':
+      case 'cut-wav-audio':
+      case 'cut-m4a':
+      case 'make-iphone-ringtone':
         return <AudioTrimmer toolConfig={activeTool} />;
       case 'split-pdf':
         return <SplitPdf toolConfig={activeTool} />;
@@ -168,8 +172,11 @@ export default function App() {
       case 'webm-trimmer':
       case 'avi-trimmer':
       case 'mkv-trimmer':
+      case 'tiktok-video-cutter':
+      case 'youtube-shorts-cutter':
+      case 'instagram-reels-cutter':
       default:
-        // Format-specific trimmer pages reuse the exact same VideoTrimmer component
+        // Format & social-specific trimmer pages reuse the VideoTrimmer component
         return <VideoTrimmer toolConfig={activeTool} />;
     }
   };
@@ -184,6 +191,7 @@ export default function App() {
         {renderTool()}
       </ToolLayout>
       <CookieConsent onNavigate={handleNavigate} />
+      <OfflineIndicator />
     </>
   );
 }

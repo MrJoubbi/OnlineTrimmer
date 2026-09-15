@@ -164,6 +164,54 @@ export const AudioTrimmer: React.FC<AudioTrimmerProps> = ({ toolConfig }) => {
     }
   };
 
+  const applyPreset = (presetDuration: number, autoFade: boolean = false) => {
+    if (presetDuration === 0) {
+      setStartTime(0);
+      setEndTime(duration);
+      seekTo(0);
+      return;
+    }
+    const safeStart = Math.min(currentTime, Math.max(0, duration - presetDuration));
+    const safeEnd = Math.min(duration, safeStart + presetDuration);
+    setStartTime(safeStart);
+    setEndTime(safeEnd);
+    seekTo(safeStart);
+    if (autoFade) {
+      setFadeIn(true);
+      setFadeOut(true);
+    }
+  };
+
+  // Keyboard navigation shortcuts
+  useEffect(() => {
+    if (!file || !audioBuffer) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const activeTag = (e.target as HTMLElement)?.tagName;
+      if (['INPUT', 'TEXTAREA', 'SELECT'].includes(activeTag)) return;
+
+      if (e.code === 'Space') {
+        e.preventDefault();
+        togglePlay();
+      } else if (e.key === '[' || e.key.toLowerCase() === 'i') {
+        e.preventDefault();
+        setStartTime(Math.min(currentTime, endTime - 0.1));
+      } else if (e.key === ']' || e.key.toLowerCase() === 'o') {
+        e.preventDefault();
+        setEndTime(Math.max(currentTime, startTime + 0.1));
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        seekTo(Math.max(0, currentTime - 0.5));
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        seekTo(Math.min(duration, currentTime + 0.5));
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [file, audioBuffer, currentTime, duration, isPlaying, startTime, endTime]);
+
   // Draw Waveform on Canvas
   useEffect(() => {
     if (!canvasRef.current || !waveformData) return;
@@ -396,6 +444,59 @@ export const AudioTrimmer: React.FC<AudioTrimmerProps> = ({ toolConfig }) => {
                   <span>Playhead: {formatTime(currentTime)}</span>
                 </div>
               </div>
+            </div>
+          </div>
+
+          {/* Smart Presets & Quick Duration Pills */}
+          <div className="flex flex-wrap items-center justify-between gap-2 pt-1">
+            <div className="flex flex-wrap items-center gap-1.5 text-xs">
+              <span className="text-slate-400 text-[11px] font-semibold uppercase tracking-wider mr-1">
+                Presets:
+              </span>
+              <button
+                type="button"
+                id="audio-preset-full"
+                onClick={() => applyPreset(0)}
+                className="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium text-xs transition-colors cursor-pointer"
+              >
+                Full Audio
+              </button>
+              <button
+                type="button"
+                id="audio-preset-ringtone"
+                onClick={() => applyPreset(29, true)}
+                className="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-emerald-100 hover:text-emerald-800 text-slate-700 font-medium text-xs transition-colors cursor-pointer"
+                title="Trim 29s snippet with smooth fade in and fade out (M4R/MP3 ringtones)"
+              >
+                Ringtone (29s) + Fade
+              </button>
+              <button
+                type="button"
+                id="audio-preset-notification"
+                onClick={() => applyPreset(5, false)}
+                className="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-emerald-100 hover:text-emerald-800 text-slate-700 font-medium text-xs transition-colors cursor-pointer"
+                title="Trim quick 5-second alert chime"
+              >
+                Alert / Notification (5s)
+              </button>
+              <button
+                type="button"
+                id="audio-preset-hook"
+                onClick={() => applyPreset(30, true)}
+                className="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-emerald-100 hover:text-emerald-800 text-slate-700 font-medium text-xs transition-colors cursor-pointer"
+                title="Trim 30-second chorus hook"
+              >
+                Chorus Hook (30s)
+              </button>
+            </div>
+
+            {/* Keyboard Shortcuts HUD */}
+            <div className="hidden lg:flex items-center space-x-2 text-[11px] text-slate-400 bg-slate-50 px-2.5 py-1 rounded-lg border border-slate-200">
+              <span className="font-semibold text-slate-500">Shortcuts:</span>
+              <span><kbd className="font-mono bg-white px-1 py-0.5 rounded border border-slate-200 text-[10px] text-slate-600">Space</kbd> Play</span>
+              <span><kbd className="font-mono bg-white px-1 py-0.5 rounded border border-slate-200 text-[10px] text-slate-600">[</kbd> In</span>
+              <span><kbd className="font-mono bg-white px-1 py-0.5 rounded border border-slate-200 text-[10px] text-slate-600">]</kbd> Out</span>
+              <span><kbd className="font-mono bg-white px-1 py-0.5 rounded border border-slate-200 text-[10px] text-slate-600">←/→</kbd> Step</span>
             </div>
           </div>
 
