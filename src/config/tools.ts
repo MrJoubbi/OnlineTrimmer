@@ -643,6 +643,184 @@ export const TOOLS_CONFIG: Record<ToolId, ToolConfig> = {
       { question: 'What video format does Instagram Reels prefer?', answer: 'Instagram prefers H.264 MP4 with AAC audio at 1080x1920 (9:16 vertical).' },
       { question: 'Can I trim videos on my mobile phone browser?', answer: 'Yes! OnlineTrimmer runs natively on Safari, Chrome, and Firefox on both iOS and Android.' }
     ]
+  },
+
+  'trim-mp4': {
+    id: 'trim-mp4',
+    path: '/trim-mp4',
+    name: 'Trim MP4 Online',
+    shortName: 'Trim MP4',
+    badge: 'Lossless MP4',
+    title: 'Trim MP4 Online Free, No Upload | OnlineTrimmer',
+    metaDescription: 'Trim and cut MP4 videos online free with zero quality loss. Fast client-side MP4 cutting directly in your browser with no upload and no watermark.',
+    h1: 'Trim MP4 Online Free, No Upload',
+    subheading: 'Cut MP4 clips with frame-accurate precision directly in your browser. 100% private with no server uploads.',
+    primaryKeyword: 'trim mp4 online',
+    secondaryKeywords: ['cut mp4 online', 'mp4 trimmer free', 'lossless mp4 cutter', 'trim mp4 no upload'],
+    acceptedMimeTypes: ['video/mp4', 'video/*'],
+    acceptedExtensions: ['.mp4', '.m4v'],
+    formatSpecific: {
+      formatName: 'MP4 (H.264 / AAC)',
+      description: 'The global standard for video across all devices, social media platforms, iPhones, and Android.',
+      advantages: [
+        'Universal compatibility on 100% of modern web browsers and phones',
+        'Lossless stream slicing without re-encoding quality degradation',
+        'Lightweight, clean playback with zero generational artifacts'
+      ],
+      typicalUses: ['Social media videos', 'Screen recordings', 'Camera footage clips', 'Presentations']
+    },
+    howItWorks: [
+      { step: 1, title: 'Choose MP4 Video', description: 'Drag and drop your MP4 file or click to select from your device.' },
+      { step: 2, title: 'Set Cut Points (MM:SS)', description: 'Drag the timeline handles or type exact minutes and seconds for the cut.' },
+      { step: 3, title: 'Download Trimmed MP4', description: 'Export your new MP4 clip instantly without watermarks or waiting queues.' }
+    ],
+    faqs: [
+      { question: 'Does trimming MP4 reduce the video quality?', answer: 'No. OnlineTrimmer uses lossless stream extraction, preserving the exact original H.264 video bitrate, color range, and resolution.' },
+      { question: 'Is my MP4 video uploaded to any server?', answer: 'Never. Processing is 100% client-side in your local browser memory using modern WebAssembly media APIs.' },
+      { question: 'What is the maximum MP4 file size?', answer: 'Because files are decoded directly in local RAM, MP4 files up to 1GB and beyond can be trimmed smoothly.' },
+      { question: 'Can I trim MP4 on mobile phones?', answer: 'Yes! OnlineTrimmer runs natively in Safari on iOS and Chrome on Android without installing any app.' }
+    ]
+  },
+
+  'trim-mov': {
+    id: 'trim-mov',
+    path: '/trim-mov',
+    name: 'Trim MOV Online',
+    shortName: 'Trim MOV',
+    badge: 'Apple QuickTime',
+    title: 'Trim MOV Online Free, No Upload | OnlineTrimmer',
+    metaDescription: 'Trim Apple QuickTime MOV videos online free. Cut iPhone and Mac MOV recordings without uploading to any server. 100% private and lossless.',
+    h1: 'Trim MOV Online Free, No Upload',
+    subheading: 'Cut QuickTime MOV files from iPhone, iPad, and Mac cameras directly in your browser without quality loss.',
+    primaryKeyword: 'trim mov online',
+    secondaryKeywords: ['cut mov online', 'mov trimmer free', 'trim iphone video', 'quicktime cutter'],
+    acceptedMimeTypes: ['video/quicktime', 'video/mp4', 'video/*'],
+    acceptedExtensions: ['.mov', '.qt'],
+    formatSpecific: {
+      formatName: 'QuickTime MOV',
+      description: 'Apple native high-bitrate video container used by iPhone cameras, Final Cut Pro, and macOS screen recordings.',
+      advantages: [
+        'Preserves high dynamic range (HDR) and iPhone camera bitrates',
+        'Direct browser slicing with optional MP4 conversion',
+        'Zero upload latency for large 4K iPhone video files'
+      ],
+      typicalUses: ['iPhone 4K recordings', 'macOS QuickTime screen captures', 'Final Cut Pro rushes']
+    },
+    howItWorks: [
+      { step: 1, title: 'Select QuickTime MOV File', description: 'Upload your iPhone MOV or macOS recording directly into the browser.' },
+      { step: 2, title: 'Scrub Timeline & Set Marks', description: 'Use the visual scrubber or minute/second inputs to pick the exact scene.' },
+      { step: 3, title: 'Save Trimmed Clip', description: 'Download the cut video instantly with zero compression artifacts.' }
+    ],
+    faqs: [
+      { question: 'Can I trim large 4K MOV files from iPhone?', answer: 'Yes. Since the video stays on your device and does not upload across the internet, large 4K MOV clips process with lightning speed.' },
+      { question: 'Can I export the cut MOV as MP4?', answer: 'Yes, you can choose MP4 export for universal playback on Windows and Android.' }
+    ]
+  },
+
+  'trim-mkv': {
+    id: 'trim-mkv',
+    path: '/trim-mkv',
+    name: 'Trim MKV Online',
+    shortName: 'Trim MKV',
+    badge: 'Matroska',
+    title: 'Trim MKV Online Free, No Upload | OnlineTrimmer',
+    metaDescription: 'Trim and cut MKV video files online free with no upload. Cut OBS recordings, anime, and movies with frame accuracy and complete privacy.',
+    h1: 'Trim MKV Online Free, No Upload',
+    subheading: 'Slice Matroska MKV files and OBS recordings directly in your browser with millisecond precision and no watermarks.',
+    primaryKeyword: 'trim mkv online',
+    secondaryKeywords: ['cut mkv online', 'mkv video trimmer', 'trim obs recording', 'mkv cutter free'],
+    acceptedMimeTypes: ['video/x-matroska', 'video/mkv', 'video/*'],
+    acceptedExtensions: ['.mkv'],
+    formatSpecific: {
+      formatName: 'MKV (Matroska Multimedia)',
+      description: 'Open container holding multiple audio and subtitle streams, widely used in OBS streaming and high-def films.',
+      advantages: [
+        'Crash-resistant stream structure preferred by OBS Studio streamers',
+        'Supports modern AV1, HEVC, and VP9 video codecs',
+        'Lossless in-browser packet extraction'
+      ],
+      typicalUses: ['OBS gameplay captures', 'High-definition video clips', 'Multi-audio recordings']
+    },
+    howItWorks: [
+      { step: 1, title: 'Load MKV Recording', description: 'Drag and drop your OBS MKV video file into the cutter.' },
+      { step: 2, title: 'Isolate Best Moments', description: 'Pinpoint highlight scenes with visual timeline handles.' },
+      { step: 3, title: 'Export Clip', description: 'Save your trimmed clip with zero watermarks.' }
+    ],
+    faqs: [
+      { question: 'Why trim OBS MKV files here?', answer: 'You do not need to convert MKV files or install heavy desktop editors like Premiere just to extract a 30-second gaming highlight.' },
+      { question: 'Are files kept confidential?', answer: 'Yes, 100% client-side execution ensures your recordings remain strictly on your computer.' }
+    ]
+  },
+
+  'cut-mp3': {
+    id: 'cut-mp3',
+    path: '/cut-mp3',
+    name: 'Cut MP3 Online',
+    shortName: 'Cut MP3',
+    badge: 'MP3 Waveform',
+    title: 'Cut MP3 Online Free, No Upload | OnlineTrimmer',
+    metaDescription: 'Cut and trim MP3 audio files online free with no upload. Interactive visual waveform editor, ringtone maker (29s), and smooth audio fade in/out.',
+    h1: 'Cut MP3 Online Free, No Upload',
+    subheading: 'Trim songs, cut audio clips, and create phone ringtones with a visual waveform visualizer. 100% private in-browser tool.',
+    primaryKeyword: 'cut mp3 online',
+    secondaryKeywords: ['mp3 cutter free', 'trim mp3 online', 'cut audio online', 'ringtone cutter mp3'],
+    acceptedMimeTypes: ['audio/mpeg', 'audio/mp3', 'audio/*'],
+    acceptedExtensions: ['.mp3'],
+    formatSpecific: {
+      formatName: 'MP3 (MPEG-1 Audio Layer III)',
+      description: 'The world standard compressed audio format supported by every phone, speaker, car audio, and web browser.',
+      advantages: [
+        'Universal playback on 100% of consumer audio hardware',
+        'Interactive real-time waveform decoding via Web Audio API',
+        'Built-in 29s ringtone preset with anti-click fade ramps'
+      ],
+      typicalUses: ['Custom phone ringtones', 'Podcast audio highlights', 'Song intro/outro trimming', 'Speech soundbites']
+    },
+    howItWorks: [
+      { step: 1, title: 'Drop MP3 Audio', description: 'Select your song or voice recording to generate an immediate amplitude waveform.' },
+      { step: 2, title: 'Highlight Audio Selection', description: 'Drag the green In and Out markers or click "Make Ringtone (29s)" for auto-fade.' },
+      { step: 3, title: 'Download Clean MP3', description: 'Preview the loop and download your cut audio with zero quality loss.' }
+    ],
+    faqs: [
+      { question: 'Can I create iPhone and Android ringtones?', answer: 'Yes! Click "Make Ringtone" to automatically select a 29-second clip with smooth fade-in and fade-out.' },
+      { question: 'Does trimming MP3 degrade audio quality?', answer: 'No. The audio engine exports the selected portion using high-fidelity 44.1kHz/48kHz buffers.' },
+      { question: 'Are my audio files uploaded to any server?', answer: 'Never. All decoding, waveform drawing, and cutting run 100% client-side in your browser.' }
+    ]
+  },
+
+  'cut-wav': {
+    id: 'cut-wav',
+    path: '/cut-wav',
+    name: 'Cut WAV Online',
+    shortName: 'Cut WAV',
+    badge: 'Studio WAV',
+    title: 'Cut WAV Online Free, No Upload | OnlineTrimmer',
+    metaDescription: 'Cut and trim uncompressed WAV audio files online free. Studio-grade lossless audio slicing with interactive waveform and zero quality loss.',
+    h1: 'Cut WAV Online Free, No Upload',
+    subheading: 'Trim uncompressed studio WAV audio files with sample-accurate precision directly in your browser with zero compression.',
+    primaryKeyword: 'cut wav online',
+    secondaryKeywords: ['wav cutter free', 'trim wav online', 'lossless wav audio cutter', 'cut wav no upload'],
+    acceptedMimeTypes: ['audio/wav', 'audio/x-wav', 'audio/*'],
+    acceptedExtensions: ['.wav'],
+    formatSpecific: {
+      formatName: 'WAV (Pulse-Code Modulation PCM)',
+      description: 'Uncompressed audio format prized by recording engineers and musicians for maximum acoustic transparency.',
+      advantages: [
+        '100% bit-perfect audio reproduction without psychoacoustic compression',
+        'Direct sample-accurate waveform rendering in browser RAM',
+        'Zero upload latency even on large 24-bit 96kHz studio recordings'
+      ],
+      typicalUses: ['Music production stems', 'Studio vocal takes', 'Podcast master tracks', 'Sound effects design']
+    },
+    howItWorks: [
+      { step: 1, title: 'Select WAV Audio File', description: 'Choose your uncompressed WAV file for instantaneous local waveform analysis.' },
+      { step: 2, title: 'Set Accurate Cut Marks', description: 'Pinpoint precise musical beats or vocal pauses with timeline scrubbing.' },
+      { step: 3, title: 'Export Bit-Perfect Audio', description: 'Save your trimmed WAV snippet with original studio fidelity.' }
+    ],
+    faqs: [
+      { question: 'Is WAV audio re-encoded or compressed?', answer: 'No. The engine extracts the PCM audio buffer directly, keeping every sample intact.' },
+      { question: 'Is there a file size limit for WAV files?', answer: 'Large WAV files up to several hundred megabytes process smoothly in memory.' }
+    ]
   }
 };
 
@@ -651,6 +829,11 @@ export const ALL_TOOLS_LIST = [
   TOOLS_CONFIG['audio-trimmer'],
   TOOLS_CONFIG['split-pdf'],
   TOOLS_CONFIG['sign-pdf'],
+  TOOLS_CONFIG['trim-mp4'],
+  TOOLS_CONFIG['trim-mov'],
+  TOOLS_CONFIG['trim-mkv'],
+  TOOLS_CONFIG['cut-mp3'],
+  TOOLS_CONFIG['cut-wav'],
   TOOLS_CONFIG['mp4-trimmer'],
   TOOLS_CONFIG['mov-trimmer'],
   TOOLS_CONFIG['webm-trimmer'],
@@ -665,14 +848,20 @@ export const ALL_TOOLS_LIST = [
 ];
 
 export const CORE_NAV_TOOLS = [
-  { id: 'video-trimmer', name: 'Video Trimmer', path: '/' },
+  { id: 'video-trimmer', name: 'Video Trimmer', path: '/video-trimmer' },
   { id: 'audio-trimmer', name: 'Audio Trimmer', path: '/audio-trimmer' },
   { id: 'split-pdf', name: 'Split PDF', path: '/split-pdf' },
   { id: 'sign-pdf', name: 'Sign PDF', path: '/sign-pdf' },
-  { id: 'mp4-trimmer', name: 'MP4 Trimmer', path: '/mp4-trimmer' },
+  { id: 'trim-mp4', name: 'Trim MP4', path: '/trim-mp4' },
+  { id: 'cut-mp3', name: 'Cut MP3', path: '/cut-mp3' },
 ];
 
 export const FORMAT_TRIMMER_KEYS: ToolId[] = [
+  'trim-mp4',
+  'trim-mov',
+  'trim-mkv',
+  'cut-mp3',
+  'cut-wav',
   'mp4-trimmer',
   'mov-trimmer',
   'webm-trimmer',

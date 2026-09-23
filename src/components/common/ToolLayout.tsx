@@ -9,6 +9,7 @@ import { ToolEditorialContent } from '../seo/ToolEditorialContent';
 import { AdUnit } from '../ads/AdUnit';
 import { useLanguage } from '../../i18n/LanguageContext';
 import { LOCALIZED_TOOL_CONTENT } from '../../i18n/toolContent';
+import { Breadcrumbs } from './Breadcrumbs';
 
 interface ToolLayoutProps {
   toolConfig: ToolConfig;
@@ -47,7 +48,19 @@ export const ToolLayout: React.FC<ToolLayoutProps> = ({
       {/* Top Navigation */}
       <Header currentPath={currentPath} onNavigate={onNavigate} />
 
-      <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+      <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
+        {/* Visual Breadcrumb navigation for SEO & User Hierarchy */}
+        {currentPath !== '/' && (
+          <Breadcrumbs
+            items={[
+              { label: 'Tools', path: '/' },
+              { label: activeH1 || toolConfig.name }
+            ]}
+            onNavigate={onNavigate}
+            className="mb-6"
+          />
+        )}
+
         {/* Hero Section */}
         <section className="text-center max-w-3xl mx-auto mb-8 sm:mb-12">
           {toolConfig.badge && (

@@ -8,6 +8,7 @@ import { formatTime, formatFileSize, downloadBlob } from '../../lib/formatUtils'
 import { trimVideoClientSide } from '../../lib/videoTrimmer';
 import { DraggableTimeline } from '../common/DraggableTimeline';
 import { MinSecInput } from '../common/MinSecInput';
+import { trackTrimAction, trackDownloadAction } from '../../lib/tracking';
 
 interface VideoTrimmerProps {
   toolConfig: ToolConfig;
@@ -207,6 +208,7 @@ export const VideoTrimmer: React.FC<VideoTrimmerProps> = ({ toolConfig }) => {
         progress: 100,
         statusMessage: 'Trimming completed successfully!',
       });
+      trackTrimAction(toolConfig.id, outputFormat, endTime - startTime);
 
       try {
         confetti({
@@ -232,6 +234,7 @@ export const VideoTrimmer: React.FC<VideoTrimmerProps> = ({ toolConfig }) => {
     if (!resultBlob || !file) return;
     const originalBase = file.name.substring(0, file.name.lastIndexOf('.')) || 'video';
     const filename = `${originalBase}-trimmed.${outputFormat}`;
+    trackDownloadAction(toolConfig.id, outputFormat, resultBlob.size);
     downloadBlob(resultBlob, filename);
   };
 

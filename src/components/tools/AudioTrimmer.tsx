@@ -9,6 +9,7 @@ import { extractWaveformData, trimAudioBuffer, audioBufferToWavBlob, WaveformDat
 import { useLanguage } from '../../i18n/LanguageContext';
 import { DraggableTimeline } from '../common/DraggableTimeline';
 import { MinSecInput } from '../common/MinSecInput';
+import { trackTrimAction, trackDownloadAction } from '../../lib/tracking';
 
 interface AudioTrimmerProps {
   toolConfig: ToolConfig;
@@ -335,6 +336,7 @@ export const AudioTrimmer: React.FC<AudioTrimmerProps> = ({ toolConfig }) => {
         progress: 100,
         statusMessage: 'Trimmed audio ready!',
       });
+      trackTrimAction(toolConfig.id, 'wav', endTime - startTime);
 
       try {
         confetti({
@@ -360,6 +362,7 @@ export const AudioTrimmer: React.FC<AudioTrimmerProps> = ({ toolConfig }) => {
     if (!resultBlob || !file) return;
     const originalBase = file.name.substring(0, file.name.lastIndexOf('.')) || 'audio';
     const filename = `${originalBase}-trimmed.wav`;
+    trackDownloadAction(toolConfig.id, 'wav', resultBlob.size);
     downloadBlob(resultBlob, filename);
   };
 

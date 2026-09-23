@@ -84,7 +84,52 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               {t('footerFormatTrimmers')}
             </h4>
             <ul className="space-y-2 text-xs">
-              {ALL_TOOLS_LIST.filter((t) => t.path.includes('-trimmer') && t.path !== '/audio-trimmer').map((t) => (
+              <li>
+                <button
+                  id="footer-link-trim-mp4"
+                  onClick={() => onNavigate('/trim-mp4')}
+                  className="hover:text-emerald-400 transition-colors cursor-pointer text-left font-medium text-emerald-300"
+                >
+                  Trim MP4 Online
+                </button>
+              </li>
+              <li>
+                <button
+                  id="footer-link-cut-mp3"
+                  onClick={() => onNavigate('/cut-mp3')}
+                  className="hover:text-emerald-400 transition-colors cursor-pointer text-left font-medium text-emerald-300"
+                >
+                  Cut MP3 Online
+                </button>
+              </li>
+              <li>
+                <button
+                  id="footer-link-trim-mov"
+                  onClick={() => onNavigate('/trim-mov')}
+                  className="hover:text-emerald-400 transition-colors cursor-pointer text-left"
+                >
+                  Trim MOV Online
+                </button>
+              </li>
+              <li>
+                <button
+                  id="footer-link-trim-mkv"
+                  onClick={() => onNavigate('/trim-mkv')}
+                  className="hover:text-emerald-400 transition-colors cursor-pointer text-left"
+                >
+                  Trim MKV Online
+                </button>
+              </li>
+              <li>
+                <button
+                  id="footer-link-cut-wav"
+                  onClick={() => onNavigate('/cut-wav')}
+                  className="hover:text-emerald-400 transition-colors cursor-pointer text-left"
+                >
+                  Cut WAV Online
+                </button>
+              </li>
+              {ALL_TOOLS_LIST.filter((t) => t.path.includes('-trimmer') && t.path !== '/audio-trimmer').slice(0, 4).map((t) => (
                 <li key={t.id}>
                   <button
                     id={`footer-link-${t.id}`}

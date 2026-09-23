@@ -481,4 +481,194 @@ export const SEO_ARTICLES: SeoArticle[] = [
       },
     ],
   },
+  {
+    id: 'trim-video-without-re-encoding',
+    slug: 'trim-video-without-re-encoding',
+    title: 'How to Trim Video Without Re-Encoding Online (Lossless Guide)',
+    metaDescription: 'Step-by-step guide to trimming MP4 and MOV videos without re-encoding. Keep original bitrate, resolution, and color profiles with zero generation loss.',
+    h1: 'How to Trim Video Without Re-Encoding Online',
+    subtitle: 'Extract clean scenes from video files in seconds while keeping 100% of your original picture quality.',
+    category: 'video',
+    publishedDate: '2026-09-01',
+    updatedDate: '2026-09-23',
+    author: 'OnlineTrimmer Media Lab',
+    authorRole: 'Video Encoding Engineers',
+    readingTime: '4 min read',
+    targetKeywords: [
+      'trim video without re-encoding',
+      'cut video without re-encoding online',
+      'lossless video cut',
+      'trim mp4 without quality loss'
+    ],
+    summaryPoints: [
+      'Re-encoding introduces macroblocking, blurry frames, and washed-out colors.',
+      'Lossless stream slicing cuts video containers without decoding and re-compressing pixel frames.',
+      'OnlineTrimmer operates 100% in-browser, delivering instant slicing without waiting for cloud queues.'
+    ],
+    relatedToolPath: '/video-trimmer',
+    relatedToolName: 'Online Video Trimmer',
+    tableOfContents: [
+      { id: 'why-re-encoding-hurts', title: 'Why Traditional Video Re-Encoding Degrades Quality' },
+      { id: 'how-lossless-trim-works', title: 'How Lossless Stream Trimming Works' },
+      { id: 'step-guide', title: 'Step-by-Step Guide to Cutting Without Re-Encoding' },
+      { id: 'faq', title: 'Frequently Asked Questions' }
+    ],
+    contentSections: [
+      {
+        id: 'why-re-encoding-hurts',
+        heading: 'Why Traditional Video Re-Encoding Degrades Quality',
+        paragraphs: [
+          'Most web video editors force every uploaded clip through a re-compression pipeline. Even if you upload a pristine 4K video, the server re-encodes it into an 8Mbps or 12Mbps stream, introducing noticeable banding in dark scenes and soft edges.',
+          'Re-encoding also takes minutes or hours for large files because the server has to recalculate every macroblock.'
+        ]
+      },
+      {
+        id: 'how-lossless-trim-works',
+        heading: 'How Lossless Stream Trimming Works',
+        paragraphs: [
+          'Lossless cutting isolates the stream packets between the designated in-point and out-point without decompressing the video data. The exact original H.264 or HEVC bitstream is preserved bite-for-byte.',
+          'This results in zero quality degradation and lightning-fast processing because the computer only performs lightweight container repacking.'
+        ]
+      },
+      {
+        id: 'step-guide',
+        heading: 'Step-by-Step Guide to Cutting Without Re-Encoding',
+        bulletPoints: [
+          '1. Visit the OnlineTrimmer Video Trimmer (/video-trimmer or /trim-mp4).',
+          '2. Select your video file. It is loaded directly into your browser memory.',
+          '3. Set start and end markers with millisecond or second precision.',
+          '4. Click "Export Video" to download your trimmed file instantly.'
+        ]
+      },
+      {
+        id: 'faq',
+        heading: 'Frequently Asked Questions',
+        bulletPoints: [
+          'Is any software required to install? No, it runs in any modern web browser.',
+          'Are my video files private? Yes, files are never uploaded to any remote server.'
+        ]
+      }
+    ]
+  },
+  {
+    id: 'cut-mp3-without-losing-quality',
+    slug: 'cut-mp3-without-losing-quality',
+    title: 'How to Cut an MP3 Without Losing Quality (Zero Transcoding)',
+    metaDescription: 'Learn how to cut and trim MP3 audio files without losing quality. Avoid generational compression loss and preserve full 320kbps audio fidelity.',
+    h1: 'How to Cut an MP3 Without Losing Quality',
+    subtitle: 'Extract ringtones, speech snippets, and song sections with pure acoustic fidelity.',
+    category: 'audio',
+    publishedDate: '2026-09-05',
+    updatedDate: '2026-09-23',
+    author: 'OnlineTrimmer Audio Lab',
+    authorRole: 'Sound Engineers',
+    readingTime: '4 min read',
+    targetKeywords: [
+      'cut an mp3 without losing quality',
+      'trim mp3 lossless online',
+      'cut mp3 without recompression',
+      'free mp3 cutter no loss'
+    ],
+    summaryPoints: [
+      'Re-encoding an MP3 cuts audio bandwidth and creates unpleasant acoustic artifacts like watery highs and muffled transients.',
+      'Direct audio buffer slicing keeps sound transparent and pristine.',
+      'Our interactive waveform lets you pinpoint pauses and beats with sample precision.'
+    ],
+    relatedToolPath: '/cut-mp3',
+    relatedToolName: 'Online MP3 Cutter',
+    tableOfContents: [
+      { id: 'the-mp3-generation-loss', title: 'Understanding MP3 Generational Loss' },
+      { id: 'cutting-with-waveform', title: 'Trimming Audio with Visual Waveforms' },
+      { id: 'step-by-step', title: 'Step-by-Step MP3 Trimming' }
+    ],
+    contentSections: [
+      {
+        id: 'the-mp3-generation-loss',
+        heading: 'Understanding MP3 Generational Loss',
+        paragraphs: [
+          'MP3 is a lossy perceptual audio format. Every time an already compressed MP3 is re-encoded, another pass of psychoacoustic masking is applied, stripping away high frequencies and subtle harmonics.',
+          'To preserve the original sound, trimming must avoid re-encoding cycles, or preserve original PCM buffers at high bitrates.'
+        ]
+      },
+      {
+        id: 'cutting-with-waveform',
+        heading: 'Trimming Audio with Visual Waveforms',
+        paragraphs: [
+          'Using OnlineTrimmer, your MP3 waveform is decoded visually so you can place markers between beats or during silent pauses, eliminating harsh audio clipping.',
+          'Toggle our smooth 0.5s fade-in and 1.0s fade-out to prevent speaker pops when creating phone ringtones.'
+        ]
+      },
+      {
+        id: 'step-by-step',
+        heading: 'Step-by-Step MP3 Trimming',
+        bulletPoints: [
+          '1. Open /cut-mp3 or /audio-trimmer.',
+          '2. Drop your song or voice recording.',
+          '3. Adjust markers or click "Make Ringtone (29s)".',
+          '4. Download your trimmed audio file.'
+        ]
+      }
+    ]
+  },
+  {
+    id: 'split-pdf-by-page-range',
+    slug: 'split-pdf-by-page-range',
+    title: 'How to Split a PDF by Page Range Online (Free & Private)',
+    metaDescription: 'Extract custom page ranges (e.g. 1-5, 8, 11-15) from PDF documents online free. Private in-browser tool with zero server uploads and vector text quality.',
+    h1: 'How to Split a PDF by Page Range Online',
+    subtitle: 'Separate contracts, statements, and reports using visual thumbnails and syntax range selectors.',
+    category: 'pdf',
+    publishedDate: '2026-09-10',
+    updatedDate: '2026-09-23',
+    author: 'OnlineTrimmer Security Team',
+    authorRole: 'PDF Architecture Specialists',
+    readingTime: '4 min read',
+    targetKeywords: [
+      'split a pdf by page range',
+      'extract pdf pages range free',
+      'split pdf online no upload',
+      'separate pdf pages range'
+    ],
+    summaryPoints: [
+      'Splitting by page range lets you extract exact chapters, invoice pages, or tax forms instantly.',
+      'Client-side processing preserves all vector text, bookmarks, and links without blurry image rendering.',
+      'Zero documents are sent to any remote server, guaranteeing GDPR and HIPAA compliance.'
+    ],
+    relatedToolPath: '/split-pdf',
+    relatedToolName: 'Split PDF Online',
+    tableOfContents: [
+      { id: 'page-range-syntax', title: 'Understanding Page Range Syntax' },
+      { id: 'how-to-split', title: 'How to Split Your PDF' },
+      { id: 'security', title: 'Why Client-Side Matters for PDFs' }
+    ],
+    contentSections: [
+      {
+        id: 'page-range-syntax',
+        heading: 'Understanding Page Range Syntax',
+        paragraphs: [
+          'OnlineTrimmer supports flexible page syntax:',
+          '• Hyphenated ranges: "1-4" extracts pages 1, 2, 3, and 4.',
+          '• Comma-separated entries: "1-3, 5, 8-10" isolates specific sections while omitting unneeded sheets.',
+          '• You can also click page thumbnails directly to toggle selection visually.'
+        ]
+      },
+      {
+        id: 'how-to-split',
+        heading: 'How to Split Your PDF',
+        bulletPoints: [
+          '1. Go to /split-pdf.',
+          '2. Choose your PDF document. Thumbnails render instantly on your machine.',
+          '3. Type your range into the syntax bar or select pages visually.',
+          '4. Click "Extract & Download Pages" to receive your new document.'
+        ]
+      },
+      {
+        id: 'security',
+        heading: 'Why Client-Side Matters for PDFs',
+        paragraphs: [
+          'Tax forms, employment agreements, and medical records contain sensitive personal identifiable information (PII). By running PDF manipulation in your browser sandbox, OnlineTrimmer ensures your records never enter a third-party server.'
+        ]
+      }
+    ]
+  }
 ];

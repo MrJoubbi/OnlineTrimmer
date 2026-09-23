@@ -18,6 +18,11 @@ const STORAGE_KEY = 'onlinetrimmer_lang';
 function detectDefaultLanguage(): SupportedLanguage {
   if (typeof window === 'undefined') return 'en';
 
+  // 0. Check URL pathname prefix (e.g. /ru/ or /ru)
+  if (window.location.pathname.startsWith('/ru/') || window.location.pathname === '/ru') {
+    return 'ru';
+  }
+
   const validCodes = new Set<string>(SUPPORTED_LANGUAGES.map((l) => l.code.toLowerCase()));
 
   // 1. Check URL query params first (e.g. ?lang=hi or ?lang=es)

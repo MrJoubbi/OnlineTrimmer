@@ -15,17 +15,31 @@ import { ContactUs } from './components/legal/ContactUs';
 import { CookiePolicy } from './components/legal/CookiePolicy';
 import { CookieConsent } from './components/common/CookieConsent';
 import { OfflineIndicator } from './components/common/OfflineIndicator';
+import { NotFound } from './components/common/NotFound';
 import { updateHubSEO, updateLegalPageSEO } from './lib/seo';
+import { SEO_ARTICLES } from './config/articles';
 
-function resolvePathToTool(pathname: string): ToolConfig {
-  const clean = pathname.toLowerCase().replace(/\/$/, '') || '/';
+function resolvePathToTool(pathname: string): ToolConfig | null {
+  // Strip /ru/ prefix if present
+  let clean = pathname.toLowerCase().replace(/\/$/, '') || '/';
+  if (clean.startsWith('/ru')) {
+    clean = clean.replace(/^\/ru/, '') || '/';
+  }
+
+  // Check direct tool routes
   for (const key of Object.keys(TOOLS_CONFIG) as ToolId[]) {
     const config = TOOLS_CONFIG[key];
     if (config.path === clean) {
       return config;
     }
   }
-  return TOOLS_CONFIG['video-trimmer'];
+
+  // Allow /video-trimmer to map to video-trimmer
+  if (clean === '/video-trimmer') {
+    return TOOLS_CONFIG['video-trimmer'];
+  }
+
+  return null;
 }
 
 export default function App() {
@@ -143,6 +157,10 @@ export default function App() {
   // Route 2: Individual Article Reader
   if (currentPath.startsWith('/articles/')) {
     const slug = currentPath.replace('/articles/', '');
+    const exists = SEO_ARTICLES.some((a) => a.slug === slug);
+    if (!exists) {
+      return <NotFound onNavigate={handleNavigate} />;
+    }
     return (
       <>
         <ArticleReader slug={slug} onNavigate={handleNavigate} />
@@ -154,10 +172,16 @@ export default function App() {
   // Route 3: Interactive Tool Pages
   const activeTool = resolvePathToTool(currentPath);
 
+  if (!activeTool) {
+    return <NotFound onNavigate={handleNavigate} />;
+  }
+
   // Render appropriate tool based on activeTool.id
   const renderTool = () => {
     switch (activeTool.id) {
       case 'audio-trimmer':
+      case 'cut-mp3':
+      case 'cut-wav':
       case 'cut-wav-audio':
       case 'cut-m4a':
       case 'make-iphone-ringtone':
@@ -167,6 +191,9 @@ export default function App() {
       case 'sign-pdf':
         return <SignPdf toolConfig={activeTool} />;
       case 'video-trimmer':
+      case 'trim-mp4':
+      case 'trim-mov':
+      case 'trim-mkv':
       case 'mp4-trimmer':
       case 'mov-trimmer':
       case 'webm-trimmer':

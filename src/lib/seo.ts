@@ -5,17 +5,19 @@ import { LOCALIZED_TOOL_CONTENT } from '../i18n/toolContent';
 
 function updateHreflangTags(pathname: string) {
   if (typeof document === 'undefined') return;
-  const baseUrl = `https://onlinetrimmer.com${pathname === '/' ? '' : pathname}`;
+  const cleanPath = pathname === '/' ? '' : pathname;
+  const baseUrl = `https://onlinetrimmer.com${cleanPath}`;
 
-  // Base fallback x-default
+  // Base fallback x-default and English
   const hreflangMap: Record<string, string> = {
     'x-default': baseUrl,
     en: baseUrl,
+    ru: `https://onlinetrimmer.com/ru${cleanPath}`,
   };
 
-  // Add all other 49 languages
+  // Add all other languages
   for (const lang of SUPPORTED_LANGUAGES) {
-    if (lang.code !== 'en') {
+    if (lang.code !== 'en' && lang.code !== 'ru') {
       hreflangMap[lang.code] = `${baseUrl}?lang=${lang.code}`;
     }
   }
@@ -103,9 +105,9 @@ export function updatePageSEO(config: ToolConfig, language?: string) {
   setMeta('name', 'twitter:description', activeDesc);
   setMeta('name', 'twitter:image', 'https://onlinetrimmer.com/logo.png');
 
-  // Keywords Meta Tag
-  const allKeywords = [config.primaryKeyword, ...config.secondaryKeywords].join(', ');
-  setMeta('name', 'keywords', allKeywords);
+  // Remove useless meta keywords tag if present
+  const metaKeywords = document.querySelector('meta[name="keywords"]');
+  if (metaKeywords) metaKeywords.remove();
 
   // Clean old schema tags
   const oldSchemas = document.querySelectorAll('script[data-schema="onlinetrimmer"]');
@@ -129,7 +131,7 @@ export function updatePageSEO(config: ToolConfig, language?: string) {
     injectSchema(faqSchema);
   }
 
-  // 2. WebApplication Schema with AggregateRating & Speakable
+  // 2. WebApplication Schema with AggregateRating & FeatureList
   const appSchema = {
     '@context': 'https://schema.org',
     '@type': 'WebApplication',
@@ -167,27 +169,7 @@ export function updatePageSEO(config: ToolConfig, language?: string) {
   };
   injectSchema(appSchema);
 
-  // 3. HowTo Schema (for Google rich How-To carousel in active language)
-  if (activeHowItWorks && activeHowItWorks.length > 0) {
-    const howToSchema = {
-      '@context': 'https://schema.org',
-      '@type': 'HowTo',
-      name: localized?.h1 ? `How to Use: ${localized.h1}` : `How to Use ${config.name}`,
-      description: activeDesc,
-      inLanguage: currentLang,
-      totalTime: 'PT1M',
-      step: activeHowItWorks.map((step) => ({
-        '@type': 'HowToStep',
-        position: step.step,
-        name: step.title,
-        text: step.description,
-        url: `${fullUrl}#step-${step.step}`,
-      })),
-    };
-    injectSchema(howToSchema);
-  }
-
-  // 4. BreadcrumbList Schema
+  // 3. BreadcrumbList Schema
   const breadcrumbSchema = {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
