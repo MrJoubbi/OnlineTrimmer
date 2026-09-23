@@ -7,6 +7,8 @@ import { ProcessingProgress } from '../common/ProcessingProgress';
 import { formatTime, formatFileSize, downloadBlob } from '../../lib/formatUtils';
 import { extractWaveformData, trimAudioBuffer, audioBufferToWavBlob, WaveformData } from '../../lib/audioTrimmer';
 import { useLanguage } from '../../i18n/LanguageContext';
+import { DraggableTimeline } from '../common/DraggableTimeline';
+import { MinSecInput } from '../common/MinSecInput';
 
 interface AudioTrimmerProps {
   toolConfig: ToolConfig;
@@ -424,20 +426,45 @@ export const AudioTrimmer: React.FC<AudioTrimmerProps> = ({ toolConfig }) => {
               </div>
             </div>
 
-            {/* Canvas Container */}
-            <div className="relative rounded-2xl bg-slate-900 border border-slate-800 p-4 shadow-inner">
+              {/* Canvas Container */}
+            <div className="relative rounded-2xl bg-slate-900 border border-slate-800 p-4 shadow-inner space-y-3">
               <canvas
                 ref={canvasRef}
                 onClick={handleCanvasClick}
                 className="w-full h-32 rounded-lg cursor-pointer"
               />
 
-              {/* Float Micro Timestamps */}
-              <div className="flex items-center justify-between mt-2 pt-2 border-t border-slate-800/60 text-xs font-mono text-slate-400">
+              {/* Draggable Timeline integrated under Waveform */}
+              <DraggableTimeline
+                duration={duration}
+                startTime={startTime}
+                endTime={endTime}
+                currentTime={currentTime}
+                onStartTimeChange={(t) => {
+                  setStartTime(t);
+                  seekTo(t);
+                }}
+                onEndTimeChange={(t) => {
+                  setEndTime(t);
+                  seekTo(t);
+                }}
+                onRangeChange={(s, e) => {
+                  setStartTime(s);
+                  setEndTime(e);
+                  seekTo(s);
+                }}
+                onSeek={seekTo}
+                heightClass="h-12"
+              />
+
+              {/* Float Micro Timestamps (Strictly MM:SS) */}
+              <div className="flex items-center justify-between pt-2 border-t border-slate-800/60 text-xs font-mono text-slate-400">
                 <div className="flex items-center space-x-2">
                   <span className="text-emerald-400 font-bold">In: {formatTime(startTime)}</span>
                   <span>→</span>
                   <span className="text-emerald-400 font-bold">Out: {formatTime(endTime)}</span>
+                  <span className="text-slate-500">|</span>
+                  <span className="text-slate-300">Length: {formatTime(Math.max(0, endTime - startTime))}</span>
                 </div>
                 <div className="flex items-center space-x-2 text-white">
                   <Volume2 className="w-3.5 h-3.5 text-sky-400" />
@@ -500,125 +527,48 @@ export const AudioTrimmer: React.FC<AudioTrimmerProps> = ({ toolConfig }) => {
             </div>
           </div>
 
-          {/* Precision Audio Controls Grid */}
+          {/* Precision Audio Controls Grid (Minutes & Seconds Only) */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 pt-2">
-            {/* Start Time Marker */}
-            <div className="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-1">
-              <div className="flex items-center justify-between text-xs font-semibold text-slate-700">
-                <span>Start Point</span>
-                <button
-                  type="button"
-                  onClick={() => setStartTime(Math.min(currentTime, endTime - 0.1))}
-                  className="text-[11px] text-sky-600 hover:text-sky-700 font-medium"
-                >
-                  Use Playhead
-                </button>
-              </div>
-              <div className="flex items-center space-x-2">
-                <input
-                  type="number"
-                  step="0.05"
-                  min="0"
-                  max={endTime - 0.05}
-                  value={parseFloat(startTime.toFixed(2))}
-                  onChange={(e) => {
-                    const val = Math.max(0, Math.min(parseFloat(e.target.value) || 0, endTime - 0.05));
-                    setStartTime(val);
-                    seekTo(val);
-                  }}
-                  className="w-full bg-white px-2.5 py-1.5 rounded-lg border border-slate-300 text-xs font-mono text-slate-800"
-                />
-                <div className="flex flex-col space-y-0.5">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const next = Math.min(startTime + 0.1, endTime - 0.1);
-                      setStartTime(next);
-                      seekTo(next);
-                    }}
-                    className="px-1.5 py-0.5 bg-slate-200 hover:bg-slate-300 rounded text-[10px]"
-                  >
-                    +
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const prev = Math.max(0, startTime - 0.1);
-                      setStartTime(prev);
-                      seekTo(prev);
-                    }}
-                    className="px-1.5 py-0.5 bg-slate-200 hover:bg-slate-300 rounded text-[10px]"
-                  >
-                    -
-                  </button>
-                </div>
-              </div>
-              <div className="text-[10px] text-slate-400 font-mono">{formatTime(startTime)}</div>
-            </div>
+            {/* Start Time Min/Sec Box */}
+            <MinSecInput
+              label="Start Point (In)"
+              time={startTime}
+              minTime={0}
+              maxTime={Math.max(0, endTime - 1)}
+              onChange={(newTime) => {
+                setStartTime(newTime);
+                seekTo(newTime);
+              }}
+              onUsePlayhead={() => setStartTime(Math.min(currentTime, endTime - 1))}
+              idPrefix="audio-start"
+            />
 
-            {/* End Time Marker */}
-            <div className="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-1">
-              <div className="flex items-center justify-between text-xs font-semibold text-slate-700">
-                <span>End Point</span>
-                <button
-                  type="button"
-                  onClick={() => setEndTime(Math.max(currentTime, startTime + 0.1))}
-                  className="text-[11px] text-sky-600 hover:text-sky-700 font-medium"
-                >
-                  Use Playhead
-                </button>
-              </div>
-              <div className="flex items-center space-x-2">
-                <input
-                  type="number"
-                  step="0.05"
-                  min={startTime + 0.05}
-                  max={duration}
-                  value={parseFloat(endTime.toFixed(2))}
-                  onChange={(e) => {
-                    const val = Math.max(startTime + 0.05, Math.min(parseFloat(e.target.value) || duration, duration));
-                    setEndTime(val);
-                    seekTo(val);
-                  }}
-                  className="w-full bg-white px-2.5 py-1.5 rounded-lg border border-slate-300 text-xs font-mono text-slate-800"
-                />
-                <div className="flex flex-col space-y-0.5">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const next = Math.min(duration, endTime + 0.1);
-                      setEndTime(next);
-                      seekTo(next);
-                    }}
-                    className="px-1.5 py-0.5 bg-slate-200 hover:bg-slate-300 rounded text-[10px]"
-                  >
-                    +
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const prev = Math.max(startTime + 0.1, endTime - 0.1);
-                      setEndTime(prev);
-                      seekTo(prev);
-                    }}
-                    className="px-1.5 py-0.5 bg-slate-200 hover:bg-slate-300 rounded text-[10px]"
-                  >
-                    -
-                  </button>
-                </div>
-              </div>
-              <div className="text-[10px] text-slate-400 font-mono">{formatTime(endTime)}</div>
-            </div>
+            {/* End Time Min/Sec Box */}
+            <MinSecInput
+              label="End Point (Out)"
+              time={endTime}
+              minTime={Math.min(duration, startTime + 1)}
+              maxTime={duration}
+              onChange={(newTime) => {
+                setEndTime(newTime);
+                seekTo(newTime);
+              }}
+              onUsePlayhead={() => setEndTime(Math.max(currentTime, startTime + 1))}
+              idPrefix="audio-end"
+            />
 
             {/* Player Controls */}
-            <div className="bg-slate-50 p-3 rounded-xl border border-slate-200 flex flex-col justify-between">
-              <span className="text-xs font-semibold text-slate-700">{t('playbackPreview')}</span>
+            <div className="bg-slate-900 text-white p-3.5 rounded-xl border border-slate-800 shadow-sm flex flex-col justify-between space-y-2.5">
+              <span className="text-xs font-semibold text-slate-200 tracking-wide flex items-center gap-1.5">
+                <Play className="w-3.5 h-3.5 text-sky-400" />
+                {t('playbackPreview')}
+              </span>
               <div className="flex items-center space-x-2">
                 <button
                   type="button"
                   id="audio-play-btn"
                   onClick={togglePlay}
-                  className="flex-1 py-1.5 px-3 rounded-lg bg-sky-600 hover:bg-sky-700 text-white text-xs font-semibold flex items-center justify-center space-x-1.5 transition-colors"
+                  className="flex-1 py-2 px-3 rounded-lg bg-sky-600 hover:bg-sky-500 active:bg-sky-700 text-white text-xs font-bold flex items-center justify-center space-x-1.5 transition-colors cursor-pointer shadow-xs"
                 >
                   {isPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
                   <span>{isPlaying ? t('pause') : t('play')}</span>
@@ -627,18 +577,24 @@ export const AudioTrimmer: React.FC<AudioTrimmerProps> = ({ toolConfig }) => {
                   type="button"
                   onClick={() => seekTo(startTime)}
                   title="Reset to In Point"
-                  className="p-2 rounded-lg bg-slate-200 hover:bg-slate-300 text-slate-700 transition-colors"
+                  className="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors cursor-pointer"
                 >
-                  <RotateCcw className="w-3.5 h-3.5" />
+                  <RotateCcw className="w-4 h-4" />
                 </button>
               </div>
-              <span className="text-[10px] text-slate-400">Smooth Loop Playback</span>
+              <div className="flex items-center justify-between text-[10px] text-slate-400 font-mono border-t border-slate-800 pt-1">
+                <span>Loop: In ⇄ Out</span>
+                <span className="text-sky-400 font-semibold">{formatTime(Math.max(0, endTime - startTime))}</span>
+              </div>
             </div>
 
             {/* Smooth Fade Options & Ringtone Preset */}
-            <div className="bg-slate-50 p-3 rounded-xl border border-slate-200 flex flex-col justify-between">
+            <div className="bg-slate-900 text-white p-3.5 rounded-xl border border-slate-800 shadow-sm flex flex-col justify-between space-y-2.5">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-semibold text-slate-700">Audio Fades</span>
+                <span className="text-xs font-semibold text-slate-200 tracking-wide flex items-center gap-1.5">
+                  <Scissors className="w-3.5 h-3.5 text-sky-400" />
+                  Audio Fades
+                </span>
                 <button
                   type="button"
                   onClick={() => {
@@ -647,33 +603,36 @@ export const AudioTrimmer: React.FC<AudioTrimmerProps> = ({ toolConfig }) => {
                     setFadeIn(true);
                     setFadeOut(true);
                   }}
-                  className="text-[10px] bg-sky-100 hover:bg-sky-200 text-sky-800 font-semibold px-2 py-0.5 rounded transition-colors"
+                  className="text-[10px] bg-sky-950 text-sky-400 border border-sky-800 hover:bg-sky-900 font-semibold px-2 py-0.5 rounded transition-colors cursor-pointer"
                   title="Auto-select 29 seconds with smooth fades for iOS/Android ringtone"
                 >
                   {t('makeRingtone')}
                 </button>
               </div>
-              <div className="flex items-center space-x-3 text-xs">
-                <label className="flex items-center space-x-1.5 cursor-pointer">
+              <div className="flex items-center space-x-3 text-xs text-slate-300">
+                <label className="flex items-center space-x-1.5 cursor-pointer hover:text-white">
                   <input
                     type="checkbox"
                     checked={fadeIn}
                     onChange={(e) => setFadeIn(e.target.checked)}
-                    className="rounded text-sky-600 focus:ring-sky-500"
+                    className="rounded text-sky-600 focus:ring-sky-500 bg-slate-950 border-slate-700"
                   />
                   <span>{t('fadeIn')}</span>
                 </label>
-                <label className="flex items-center space-x-1.5 cursor-pointer">
+                <label className="flex items-center space-x-1.5 cursor-pointer hover:text-white">
                   <input
                     type="checkbox"
                     checked={fadeOut}
                     onChange={(e) => setFadeOut(e.target.checked)}
-                    className="rounded text-sky-600 focus:ring-sky-500"
+                    className="rounded text-sky-600 focus:ring-sky-500 bg-slate-950 border-slate-700"
                   />
                   <span>{t('fadeOut')}</span>
                 </label>
               </div>
-              <span className="text-[10px] text-slate-400">Anti-click smoothing</span>
+              <div className="flex items-center justify-between text-[10px] text-slate-400 font-mono border-t border-slate-800 pt-1">
+                <span>Anti-Click</span>
+                <span className="text-sky-400">Smooth curve</span>
+              </div>
             </div>
           </div>
 
